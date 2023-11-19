@@ -1,0 +1,94 @@
+﻿@page "/index2"
+@using System.Text.Json.Serialization;
+@using System.Diagnostics;
+@using System.Text.Json;
+@using System.Text;
+@using VoiceChatGPT_Blazor.Data;
+@using Toolbelt.Blazor.SpeechRecognition
+
+<PageTitle>Index</PageTitle>
+@inject TranslateService translateService
+@inject SpeechRecognition SpeechRecognition
+
+<h1>Hello, viewer, !</h1>
+
+Welcome to Chat GPT voice assistant
+<p>
+    English
+    <input type="text" @bind-value="InputValue" style="width:100%" />
+</p>
+
+<p>
+    Chinese
+    <input type="text" @bind-value="OutputValue" style="width:100%" />
+</p>
+
+<p>
+    Franch
+    <input type="text" @bind-value="FranchValue" style="width:100%" />
+</p>
+
+<p>
+    <input type="text" @bind-value="VoiceRecogniztionStatus" style="width:100%" />
+</p>
+
+@code {
+    static string? InputValue { get; set; }
+    static string? OutputValue { get; set; }
+    static string? FranchValue { get; set; }
+    static string? VoiceRecogniztionStatus { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.SpeechRecognition.Result += SpeechRecognizedHandler;
+        this.SpeechRecognition.End += SpeechCompletedHandler;
+
+        // Assign input to the recognizer and start an asynchronous
+        // recognition operation.
+        VoiceRecogniztionStatus = "Starting asynchronous recognition...";
+    }
+
+    protected override async Task OnAfterRenderAsync(bool isFirstRender)
+    {
+        if (isFirstRender)
+            await this.SpeechRecognition.StartAsync();
+    }
+
+    // Handle the SpeechRecognized event.
+    void SpeechRecognizedHandler(
+      object sender, SpeechRecognitionEventArgs e)
+    {
+        VoiceRecogniztionStatus = " In SpeechRecognizedHandler.";
+
+        string resultText = "<not available>";
+        if (e.Results != null)
+        {
+            resultText = e.Results[0].Items[0].Transcript;
+        }
+
+        VoiceRecogniztionStatus += String.Format(" - Result Text = {0}",
+          resultText);
+        InputValue = resultText;
+        StateHasChanged();
+        Translate(resultText);
+    }
+
+    void SpeechCompletedHandler(
+      object sender, EventArgs e)
+    {
+        this.SpeechRecognition.StartAsync();
+    }
+
+    public async void Translate(string query)
+    {
+        TranslateRequest translateRequest = new TranslateRequest("English", "Chinese", query);
+        TranslateResponse translateResponse = await translateService.Post(translateRequest);
+        OutputValue = translateResponse.Result;
+        translateRequest = new TranslateRequest("English", "Franch", query);
+        translateResponse = await translateService.Post(translateRequest);
+        FranchValue = translateResponse.Result;
+        StateHasChanged();
+        this.SpeechRecognition.StopAsync();
+    }
+}
+

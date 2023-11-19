@@ -1,0 +1,195 @@
+﻿@page "/"
+@using System.Speech.Recognition;
+@using System.Text.Json.Serialization;
+@using System.Diagnostics;
+@using System.Text.Json;
+@using System.Text;
+@using VoiceChatGPT_Blazor.Data;
+
+<PageTitle>Index</PageTitle>
+@inject TranslateService translateService
+
+<h1>Hello, viewer, !</h1>
+
+Welcome to Chat GPT voice assistant
+<p>
+    English
+    <input type="text" @bind-value="InputValue" style="width:100%" />
+</p>
+
+<p>
+    Chinese
+    <input type="text" @bind-value="OutputValue" style="width:100%" />
+</p>
+
+<p>
+    Franch
+    <input type="text" @bind-value="FranchValue" style="width:100%" />
+</p>
+
+<p>
+    <input type="text" @bind-value="VoiceRecogniztionStatus" style="width:100%" />
+</p>
+
+@code{
+    static string? InputValue { get; set; }
+    static string? OutputValue { get; set; }
+    static string? FranchValue { get; set; }
+    static string? VoiceRecogniztionStatus { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var recognizer = new SpeechRecognitionEngine();
+        var grammar = new DictationGrammar();
+        recognizer.LoadGrammar(grammar);
+        grammar.SetDictationContext("Hello", null);
+        grammar.SetDictationContext("Hackathon", null);
+        grammar.SetDictationContext("Welcome", "Welcome to");
+        grammar.SetDictationContext("Welcome to", "Welcome to hackathon");
+        
+        // Attach event handlers.
+        recognizer.SpeechDetected +=
+          new EventHandler<SpeechDetectedEventArgs>(
+            SpeechDetectedHandler);
+        recognizer.SpeechHypothesized +=
+          new EventHandler<SpeechHypothesizedEventArgs>(
+            SpeechHypothesizedHandler);
+        recognizer.SpeechRecognitionRejected +=
+          new EventHandler<SpeechRecognitionRejectedEventArgs>(
+            SpeechRecognitionRejectedHandler);
+        recognizer.SpeechRecognized +=
+          new EventHandler<SpeechRecognizedEventArgs>(
+            SpeechRecognizedHandler);
+        recognizer.RecognizeCompleted +=
+          new EventHandler<RecognizeCompletedEventArgs>(
+            RecognizeCompletedHandler);
+
+        // Assign input to the recognizer and start an asynchronous
+        // recognition operation.
+        recognizer.SetInputToDefaultAudioDevice();
+        VoiceRecogniztionStatus = "Starting asynchronous recognition...";
+        recognizer.RecognizeAsync(RecognizeMode.Multiple);
+    }
+
+    // Handle the SpeechDetected event.
+    void SpeechDetectedHandler(object sender, SpeechDetectedEventArgs e)
+    {
+        VoiceRecogniztionStatus += String.Format(" In SpeechDetectedHandler: - AudioPosition = {0}", e.AudioPosition);
+    }
+
+    // Handle the SpeechHypothesized event.
+    void SpeechHypothesizedHandler(
+      object sender, SpeechHypothesizedEventArgs e)
+    {
+        Console.WriteLine(" In SpeechHypothesizedHandler:");
+
+        string grammarName = "<not available>";
+        string resultText = "<not available>";
+        if (e.Result != null)
+        {
+            if (e.Result.Grammar != null)
+            {
+                grammarName = e.Result.Grammar.Name;
+            }
+            resultText = e.Result.Text;
+        }
+
+        VoiceRecogniztionStatus += String.Format(" - Grammar Name = {0}; Result Text = {1}",
+          grammarName, resultText);
+    }
+
+    // Handle the SpeechRecognitionRejected event.
+    void SpeechRecognitionRejectedHandler(
+      object sender, SpeechRecognitionRejectedEventArgs e)
+    {
+        VoiceRecogniztionStatus += " In SpeechRecognitionRejectedHandler:";
+
+        string grammarName = "<not available>";
+        string resultText = "<not available>";
+        if (e.Result != null)
+        {
+            if (e.Result.Grammar != null)
+            {
+                grammarName = e.Result.Grammar.Name;
+            }
+            resultText = e.Result.Text;
+        }
+
+        VoiceRecogniztionStatus += String.Format(" - Grammar Name = {0}; Result Text = {1}",
+          grammarName, resultText);
+    }
+
+    // Handle the SpeechRecognized event.
+    void SpeechRecognizedHandler(
+      object sender, SpeechRecognizedEventArgs e)
+    {
+        VoiceRecogniztionStatus = " In SpeechRecognizedHandler.";
+
+        string grammarName = "<not available>";
+        string resultText = "<not available>";
+        if (e.Result != null)
+        {
+            if (e.Result.Grammar != null)
+            {
+                grammarName = e.Result.Grammar.Name;
+            }
+            resultText = e.Result.Text;
+        }
+
+        VoiceRecogniztionStatus += String.Format(" - Grammar Name = {0}; Result Text = {1}",
+          grammarName, resultText);
+        InputValue = resultText;
+        StateHasChanged();
+        Translate(resultText);
+    }
+
+    // Handle the RecognizeCompleted event.
+    void RecognizeCompletedHandler(
+      object sender, RecognizeCompletedEventArgs e)
+    {
+        VoiceRecogniztionStatus = " In RecognizeCompletedHandler.";
+
+        if (e.Error != null)
+        {
+            VoiceRecogniztionStatus += string.Format(
+              " - Error occurred during recognition: {0}", e.Error);
+            return;
+        }
+        if (e.InitialSilenceTimeout || e.BabbleTimeout)
+        {
+            VoiceRecogniztionStatus += string.Format(
+              " - BabbleTimeout = {0}; InitialSilenceTimeout = {1}",
+              e.BabbleTimeout, e.InitialSilenceTimeout);
+            return;
+        }
+        if (e.InputStreamEnded)
+        {
+            VoiceRecogniztionStatus += string.Format(
+              " - AudioPosition = {0}; InputStreamEnded = {1}",
+              e.AudioPosition, e.InputStreamEnded);
+        }
+        if (e.Result != null)
+        {
+            VoiceRecogniztionStatus += string.Format(
+              " - Grammar = {0}; Text = {1}; Confidence = {2}",
+              e.Result.Grammar.Name, e.Result.Text, e.Result.Confidence);
+            VoiceRecogniztionStatus += string.Format(" - AudioPosition = {0}", e.AudioPosition);
+        }
+        else
+        {
+            VoiceRecogniztionStatus += string.Format(" - No result.");
+        }
+    }
+
+    public async void Translate(string query)
+    {
+        TranslateRequest translateRequest = new TranslateRequest("English", "Chinese", query);
+        TranslateResponse translateResponse = await translateService.Post(translateRequest);
+        OutputValue = translateResponse.Result;
+        translateRequest = new TranslateRequest("English", "Franch", query);
+        translateResponse = await translateService.Post(translateRequest);
+        FranchValue = translateResponse.Result;
+        StateHasChanged();
+    }
+}
+

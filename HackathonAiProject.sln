@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslatorApi", "TranslatorApi\TranslatorApi.csproj", "{36325BB7-F18C-47FC-B6DC-A726F8618F4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackathonAI.Domain", "HackathonAI.Domain\HackathonAI.Domain.csproj", "{A42111E5-1D0F-4298-AC4D-3A4838BD2113}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackathonAI.Application", "HackathonAI.Application\HackathonAI.Application.csproj", "{C9C4033E-7142-49E4-91FB-C293649C97E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackathonAI.Infrastructure", "HackathonAI.Infrastructure\HackathonAI.Infrastructure.csproj", "{E7357191-D9AA-4478-80A2-EAD83C64404F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackathonAI.Presentation", "HackathonAI.Presentation\HackathonAI.Presentation.csproj", "{618EF286-0B5A-4887-8675-D146BEDB095B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoiceChatGPT_Blazor", "VoiceChatGPT_Blazor\VoiceChatGPT_Blazor.csproj", "{8731A230-EF1A-42A8-9D00-A7D03416C769}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36325BB7-F18C-47FC-B6DC-A726F8618F4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36325BB7-F18C-47FC-B6DC-A726F8618F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36325BB7-F18C-47FC-B6DC-A726F8618F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36325BB7-F18C-47FC-B6DC-A726F8618F4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A42111E5-1D0F-4298-AC4D-3A4838BD2113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A42111E5-1D0F-4298-AC4D-3A4838BD2113}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A42111E5-1D0F-4298-AC4D-3A4838BD2113}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A42111E5-1D0F-4298-AC4D-3A4838BD2113}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9C4033E-7142-49E4-91FB-C293649C97E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9C4033E-7142-49E4-91FB-C293649C97E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9C4033E-7142-49E4-91FB-C293649C97E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9C4033E-7142-49E4-91FB-C293649C97E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7357191-D9AA-4478-80A2-EAD83C64404F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7357191-D9AA-4478-80A2-EAD83C64404F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7357191-D9AA-4478-80A2-EAD83C64404F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7357191-D9AA-4478-80A2-EAD83C64404F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{618EF286-0B5A-4887-8675-D146BEDB095B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{618EF286-0B5A-4887-8675-D146BEDB095B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{618EF286-0B5A-4887-8675-D146BEDB095B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{618EF286-0B5A-4887-8675-D146BEDB095B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8731A230-EF1A-42A8-9D00-A7D03416C769}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8731A230-EF1A-42A8-9D00-A7D03416C769}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8731A230-EF1A-42A8-9D00-A7D03416C769}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8731A230-EF1A-42A8-9D00-A7D03416C769}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7995C39-09BC-421F-8AC6-6AA3DA6D1D72}
+	EndGlobalSection
+EndGlobal

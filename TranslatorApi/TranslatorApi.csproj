@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>307473ee-bd5b-4149-a298-e1d12891b19a</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Betalgo.OpenAI" Version="7.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.11" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SampleData\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HackathonAI.Application\HackathonAI.Application.csproj" />
+    <ProjectReference Include="..\HackathonAI.Infrastructure\HackathonAI.Infrastructure.csproj" />
+    <ProjectReference Include="..\HackathonAI.Presentation\HackathonAI.Presentation.csproj" />
+  </ItemGroup>
+
+</Project>
